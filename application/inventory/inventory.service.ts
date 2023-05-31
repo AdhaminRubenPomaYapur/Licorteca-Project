@@ -10,7 +10,6 @@ export class InventoryService implements InventoryInterfaceService<string, Inven
     public updateStock = async (tEntityId: string): Promise<Inventory | undefined> => {
         return await this.inventoryRepository.updateStock(tEntityId);
     }
-    
     public addProductId = async (tEntityId: string, tEntityQuery: string): Promise<Inventory | undefined> => {
         return await this.inventoryRepository.addProductId(tEntityId, tEntityQuery!);
     }

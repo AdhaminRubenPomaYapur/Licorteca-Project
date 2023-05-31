@@ -5,20 +5,20 @@ export class Sale implements SaleInterface {
 
     public id?          : string;
     public description? : string;
-    public products?    : any[];
+    public products?    : Map<string, string | number>[];
     public date?        : string;
     public amount?      : number;
-    public price?       : number;
+    public total?       : number;
     public state?       : boolean;
     public client?      : string;
     public employee?    : string;
 
     constructor({});
-    constructor({description, products, amount, price, client, employee}: SaleInterface) {
+    constructor({description, products, amount, total, client, employee}: SaleInterface) {
         this.description = description;
         this.products    = products;
         this.amount      = amount;
-        this.price       = price;
+        this.total       = total;
         this.state       = true;
         this.client      = client;
         this.employee    = employee;
@@ -33,7 +33,7 @@ export class Sale implements SaleInterface {
             saleBase.products    = sale.products;
             saleBase.date        = sale.date;
             saleBase.amount      = sale.amount;
-            saleBase.price       = sale.price;
+            saleBase.total       = sale.total;
             saleBase.state       = sale.state;
             saleBase.client      = sale.client;
             saleBase.employee    = sale.employee;
@@ -49,7 +49,7 @@ export class Sale implements SaleInterface {
         sale.products     = object.products;
         sale.date         = object.date;
         sale.amount       = object.amount;
-        sale.price        = object.price;
+        sale.total        = object.total;
         sale.state        = object.state;
         sale.client       = object.client;
         sale.employee     = object.employee;

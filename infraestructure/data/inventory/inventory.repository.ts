@@ -11,7 +11,6 @@ export class RepositoryInventory implements InventoryRepository<string, Inventor
         private readonly modelProduct  : Model<ProductInterface>
     ) {}
 
-
     public updateStock = async (tEntityId: string): Promise<Inventory | undefined> => {
         const inventory = await this.getEntityById(tEntityId);
         const products  = await this.modelProduct.find();
@@ -24,9 +23,7 @@ export class RepositoryInventory implements InventoryRepository<string, Inventor
 
     public addProductId = async (tEntityId: string, tEntityQuery: string): Promise<Inventory | undefined> => {
         const inventory = await this.getEntityById(tEntityId);
-        if( !inventory?.getProductById(tEntityQuery) ) {
-            inventory?.addProduct(tEntityQuery);
-        }
+        if( !inventory?.existsProductById(tEntityQuery) ) inventory?.addProductToList(tEntityQuery);
         const inventoryUpdate = await this.putEntity(tEntityId, inventory!);
         return inventoryUpdate;
     }
@@ -47,7 +44,6 @@ export class RepositoryInventory implements InventoryRepository<string, Inventor
         return Inventory.getInventoryById(inventoryDB);
     }
     public putEntity = async (tEntityId: string, tEntityQuery: InventoryInterface): Promise<Inventory | undefined> => {
-        // console.log(tEntityQuery.stock);
         const inventoryDB = await this.modelInventory.findByIdAndUpdate(tEntityId, tEntityQuery, {new: true});
         const inventory = Inventory.getInventoryById(inventoryDB);
         return inventory;

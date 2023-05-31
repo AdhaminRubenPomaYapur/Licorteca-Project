@@ -4,8 +4,8 @@ export class Purchase implements PurchaseInterface {
 
     public id?          : string;
     public description? : string;
-    public products?    : Map<string, string | number>[];
     public date?        : string;
+    public products?    : Map<string, string | number>[];
     public amount?      : number;
     public total?       : number;
     public state?       : boolean;
@@ -15,8 +15,8 @@ export class Purchase implements PurchaseInterface {
     constructor({});
     constructor({description, products, amount, total, supplier, employee}: PurchaseInterface) {
         this.description = description;
-        this.products    = products;
         this.date        = `${new Date()}`;
+        this.products    = products;
         this.amount      = amount;
         this.total       = total;
         this.state       = true;

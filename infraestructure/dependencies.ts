@@ -25,6 +25,14 @@ import { RepositoryEmployee } from "./data/employee/employee.repository";
 import EmployeeModel from "./data/employee/employee.mongo";
 import { EmployeeService } from "../application/employee/employee.service";
 import { EmployeeController } from "./api/controllers/employee.controller";
+import { RepositoryPurchase } from "./data/purchase/purchase.repository";
+import PurchaseModel from "./data/purchase/purchase.mongo";
+import { PurchaseService } from "../application/purchase/purchase.service";
+import { PurchaseController } from "./api/controllers/purchase.controller";
+import { RepositorySale } from "./data/sale/sale.repository";
+import SaleModel from "./data/sale/sale.mongo";
+import { SaleService } from "../application/sale/sale.service";
+import { SaleController } from "./api/controllers/sale.controller";
 
 const repositoryProduct          = new RepositoryProduct(ProductModel);
 const productService             = new ProductService(repositoryProduct);
@@ -49,3 +57,11 @@ export const clientController    = new ClientController(clientService);
 const repositoryEmployee         = new RepositoryEmployee(EmployeeModel);
 const employeeService            = new EmployeeService(repositoryEmployee);
 export const employeeController  = new EmployeeController(employeeService);
+
+const repositoryPurchase         = new RepositoryPurchase(PurchaseModel);
+const purchaseService            = new PurchaseService(repositoryCatalog, repositoryPurchase, repositoryInventory, repositoryProduct);
+export const purchaseController  = new PurchaseController(purchaseService);
+
+const repositorySale             = new RepositorySale(SaleModel);
+const saleService                = new SaleService(repositoryProduct, repositoryInventory, repositorySale);
+export const saleController      = new SaleController(saleService);

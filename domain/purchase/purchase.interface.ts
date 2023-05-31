@@ -1,8 +1,8 @@
 export interface PurchaseInterface {
     id?          : string;
     description? : string;
-    products?    : Map<string, string | number>[];
     date?        : string;
+    products?    : Map<string, string | number>[];
     amount?      : number;
     total?       : number;
     state?       : boolean;

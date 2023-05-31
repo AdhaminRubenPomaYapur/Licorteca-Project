@@ -1,10 +1,10 @@
 export interface SaleInterface {
     id?          : string;
     description? : string;
-    products?    : any[];
+    products?    : Map<string, string | number>[];
     date?        : string;
     amount?      : number;
-    price?       : number;
+    total?       : number;
     state?       : boolean;
     client?      : string;
     employee?    : string;

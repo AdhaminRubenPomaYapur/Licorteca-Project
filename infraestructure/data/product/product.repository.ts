@@ -14,7 +14,7 @@ export class RepositoryProduct implements ProductRepository<string, ProductInter
     public addProductCatalogId = async (tEntityId: string, tEntityQuery: string): Promise<Product | undefined> => {
         const product = await this.getEntityById(tEntityId);
         if( !product?.existsProductByCatalogId(tEntityQuery) ) {
-            product!.addProductIds(tEntityQuery);
+            product!.addIdProductToList(tEntityQuery);
         }
         const productUpdated = await this.putEntity(tEntityId, product!);
         return productUpdated;

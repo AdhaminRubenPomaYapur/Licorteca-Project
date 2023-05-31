@@ -18,7 +18,6 @@ export class SupplierController implements InterfaceCrud {
     }
     public POST = async (req: Request, res: Response): Promise<void> => {
         const { supplier } = req.body;
-        console.log(req.body);
         const supplierNew = await this.supplierService.postEntity(supplier);
         res.json({supplier: supplierNew});
     }

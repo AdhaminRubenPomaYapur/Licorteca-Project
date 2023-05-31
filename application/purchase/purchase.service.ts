@@ -1,7 +1,9 @@
 import { Catalog } from "../../domain/catalog/catalog.class";
 import { CatalogInterface } from "../../domain/catalog/catalog.interface";
 import { CatalogRepository } from "../../domain/catalog/catalog.repository";
+
 import { FLAG } from "../../domain/enums";
+
 import { Inventory } from "../../domain/inventory/inventory.class";
 import { InventoryInterface } from "../../domain/inventory/inventory.interface";
 import { InventoryRepository } from "../../domain/inventory/inventory.repository";
@@ -36,60 +38,62 @@ export class PurchaseService implements PurchaseInterfaceService<string, Purchas
         const inventories : Inventory[] | undefined = await this.inventoryRepository.getListEntity();
 
         for (let i = 0; i < tEntityQuery.products?.length!; i++) {
-            const productCatalogQuery = tEntityQuery.products![i];
+            const productMapCatalogQuery = tEntityQuery.products![i];
+
             for (let j = 0; j < catalogs!.length; j++) {
                 const catalog = catalogs![j];
+
                 for (let k = 0; k < catalog.products!.length; k++) {
                     const product = catalog.products![k];
-                    if(product.get('id') === productCatalogQuery.get('id')){
-                        const id = product.get('id') as string;
-                        const stock = productCatalogQuery.get('stokc') as number;
-                        catalog.updateStock(id, stock, FLAG.Sales);
+
+                    if(product.get('id') === productMapCatalogQuery.get('id')){
+                        const id     = product.get('id') as string;
+                        const amount = productMapCatalogQuery.get('amount') as number;
+                        catalog.updateStock(id, amount, FLAG.Sales);
+                        await this.catalogRepository.putEntity(catalog.id!, catalog);
                     }
+
                 }
+
             }
+
         }
+
+        let amountTotal: number = 0;
+        let total: number = 0;
 
         for (let i = 0; i < tEntityQuery.products?.length!; i++) {
-            const productCatalogQuery = tEntityQuery.products![i];
-            for (let j = 0; j < products!.length; j++) {
-                if(productCatalogQuery.get('id') === products![j].id){
-                    const stock: number = productCatalogQuery.get('stock') as number;
-                    products![j].updateStock(stock, FLAG.Purchase);
+            const productMapCatalogQuery = tEntityQuery.products![i];
+
+            for (let j = 0; j < products?.length!; j++) {
+                const product = products![j];
+
+                for (let k = 0; k < product.productids?.length!; k++) {
+                    const id = product.productids![k];
+                    
+                    if(productMapCatalogQuery.get('id') === id){
+                        const amount: number = productMapCatalogQuery.get('amount') as number;
+                        product.updateStockProduct(amount, FLAG.Purchase);
+                        total += product.priceSubTotal(amount);
+                        await this.productRepository.putEntity(product.id!, product);
+                    }
+
                 }
+
             }
+
+            amountTotal += productMapCatalogQuery.get('stock') as number;
+
         }
 
-        // for (let i = 0; i < inventories!.length; i++) {
-        //     const inventory = inventories![i];
-        //     for (let j = 0; j < array.length; j++) {
-        //         const element = array[j];
-                
-        //     }
-        // }
+        for (let i = 0; i < inventories!.length; i++) {
+            const inventory = inventories![i];
+            await this.inventoryRepository.updateStock(inventory.id!);
+        }
 
-        let   amount: number = 0;
+        tEntityQuery.amount = amountTotal;
+        tEntityQuery.total  = total;
 
-
-        // const amounts  : number[]  = new Array<number>();
-        // const products : Product[] = new Array<Product>();
-        // let amount = 0;
-        // tEntityQuery.products?.forEach(async (product) => {
-        //     const productDB = await this.productRepository.getEntityById(product.id);
-        //     products.push(productDB!);
-        //     amounts.push(product.amount);
-        //     amount += product.amount;
-        // });
-        // const prices   : number[]  = new Array<number>();
-        // for (let index = 0; index < products.length; index++) {
-        //     prices.push(products[index].priceSubTotal(amounts[index]));
-        // }
-        // let total: number = 0;
-        // for (let index = 0; index < prices.length; index++) {
-        //     total += prices[index];
-        // }
-        // tEntityQuery.total  = total;
-        // tEntityQuery.amount = amount;
         return await this.purchaseRepository.postEntity(tEntityQuery);
     }
     public putEntity = async (tEntityId: string, tEntityQuery: PurchaseInterface): Promise<Purchase | undefined> => {

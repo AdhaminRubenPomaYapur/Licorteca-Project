@@ -57,9 +57,8 @@ export class Inventory implements InventoryInterface {
         return inventory;
     }
 
-    public getProductById = (id: string) => this.products?.includes(id) ? true : false;
-
-    public addProduct = (id: string) => this.products?.push(id);
+    public existsProductById = (id: string) => this.products?.includes(id) ? true : false;
+    public addProductToList  = (id: string) => this.products?.push(id);
 
     public updateStock = (products: any[]) => {
         for (let i = 0; i < products.length; i++) {
@@ -75,10 +74,10 @@ export class Inventory implements InventoryInterface {
     public updateStateInventory = () => {
         const stockEmpty = 0;
         const stockHalf1 = this.stockmax! * 0.25;
-        const stockHalf2  = this.stockmax! * 0.75;
+        const stockHalf2 = this.stockmax! * 0.75;
         if( this.stock! >= stockEmpty && this.stock! < stockHalf1 ) this.stateInventory = STATEINVENTORY.empty;
         if( this.stock! >= stockHalf1 && this.stock! < stockHalf2 ) this.stateInventory = STATEINVENTORY.half;
-        if( this.stock! >= stockHalf2 ) this.stateInventory = STATEINVENTORY.full;
+        if( this.stock! >= stockHalf2 )                             this.stateInventory = STATEINVENTORY.full;
     }
 
 }

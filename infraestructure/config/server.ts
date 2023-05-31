@@ -7,6 +7,8 @@ import routerCatalog from "../api/routes/catalog.route";
 import routerSupplier from "../api/routes/supplier.route";
 import routerClient from "../api/routes/client.route";
 import routerEmployee from "../api/routes/employee.route";
+import routerPurchase from "../api/routes/purchase.route";
+import routerSale from "../api/routes/sale.route";
 
 
 export class Server{
@@ -25,6 +27,8 @@ export class Server{
             suppliers   : '/api/suppliers',
             clients     : '/api/clients',
             employees   : '/api/employees',
+            purchases   : '/api/purchases',
+            sales       : '/api/sales',
         };
 
         this.connectionsDB();
@@ -48,6 +52,8 @@ export class Server{
         this.app.use(this.path.suppliers,   routerSupplier);
         this.app.use(this.path.clients,     routerClient);
         this.app.use(this.path.employees,   routerEmployee);
+        this.app.use(this.path.purchases,   routerPurchase);
+        this.app.use(this.path.sales,       routerSale);
     }
 
     listen(): void {

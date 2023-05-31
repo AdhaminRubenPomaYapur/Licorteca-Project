@@ -59,12 +59,11 @@ export class Product implements ProductInterface {
         product.productids  = object.productids;
         product.state       = object.state;
         product.created     = object.created;
-        console.log(product);
         return product;
     }
 
     public existsProductByCatalogId = (id: string) => this.productids?.includes(id) ? true : false;
-    public addProductIds = (id: string)   => this.productids?.push(id);
+    public addIdProductToList       = (id: string) => this.productids?.push(id);
 
     static getProductByIdProductCatalog = (id: string, products: any[]) => {
         let productReturn = new Product({});
@@ -81,7 +80,7 @@ export class Product implements ProductInterface {
         return productReturn;
     }
 
-    public updateStock = (amount: number, flag: FLAG) => {
+    public updateStockProduct = (amount: number, flag: FLAG) => {
         if(flag === FLAG.Sales && this.stock! > amount) this.stock! -= amount;
         if(flag === FLAG.Purchase)                      this.stock! += amount;
     }
