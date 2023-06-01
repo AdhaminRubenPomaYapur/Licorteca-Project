@@ -10,7 +10,7 @@ export class RepositoryCatalog implements CatalogRepository<string, CatalogInter
     constructor( private readonly modelCatalog: Model<CatalogInterface> ) {}
 
     public getCatalogsBySupplier = async (tEntityId: string): Promise<Catalog[] | undefined> => {
-        const catalogsDB  = (await this.modelCatalog.find()).filter(catalog => catalog.supplier === tEntityId);
+        const catalogsDB  = await this.modelCatalog.find({supplier: tEntityId});
         const catalogs    = Catalog.getCatalogs(catalogsDB);
         return catalogs;
     }

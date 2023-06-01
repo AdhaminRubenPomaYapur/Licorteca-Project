@@ -11,14 +11,14 @@ export class CatalogController implements InterfaceCrud {
         const catalogs = await this.catalogService.getListEntity();
         res.json({catalogs})
     }
-    // public GETBYID = async (req: Request, res: Response): Promise<void> => {
-    //     const { id } = req.params;
-    //     const catalog  = await this.catalogService.getEntityById(id);
-    //     res.json({catalog});
-    // }
+    public GETCATALOGSBYIDSUPPLIER = async (req: Request, res: Response): Promise<void> => {
+        const { id } = req.params;
+        const catalogs  = await this.catalogService.getCatalogsBySupplier(id);
+        res.json({catalogs});
+    }
     public GETBYID = async (req: Request, res: Response): Promise<void> => {
         const { id } = req.params;
-        const catalog  = await this.catalogService.getProductById(id);
+        const catalog  = await this.catalogService.getEntityById(id);
         res.json({catalog});
     }
     public POST = async (req: Request, res: Response): Promise<void> => {
