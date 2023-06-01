@@ -16,13 +16,13 @@ export class Product implements ProductInterface {
 
     constructor({});
 
-    constructor({name, description}: ProductInterface) {
+    constructor({name, description, price}: ProductInterface) {
         this.name        = name;
         this.description = description;
         this.stockmin    = 0;
         this.stockmax    = 0;
         this.stock       = 0;
-        this.price       = 0;
+        this.price       = price;
         this.productids  = [];
         this.state       = true;
         this.created     = `${new Date()}`;
